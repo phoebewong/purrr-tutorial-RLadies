@@ -1,2 +1,2 @@
 # purrr-tutorial-RLadies
-A repo for purrr tutorial
+A repo for purrr tutorial at R Ladies Boston

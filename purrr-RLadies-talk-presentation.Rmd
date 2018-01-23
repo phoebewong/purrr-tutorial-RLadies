@@ -46,15 +46,6 @@ YOUR TURN:
 2. What information is given for the first person?
 3. What is the difference between sw_people[1] and sw_people [[1]]
 
-```{r answer}
-sw_people[[1]] # Luke Skywalker 
-
-names(sw_people[[1]])
-
-sw_people[1] # A list inside a list
-sw_people[[1]] # A list, dropped one level of heirachy
-```
-
 Wow, there is quite a lot of information for Luke and there're more than one character in Star Wars! 
 I'm interested to see how many starships has each character been in.
 
@@ -126,10 +117,6 @@ Your turn! Can you use `map()` to find the name of each character's home world?
 
 **Tips**: think about what do we need to change to find it for each character
 
-```{r answer2}
-map(sw_people, ~planet_lookup[.x$homeworld]) %>% head()
-```
-
 # Other map functions
 As you can notice from our above example, the output from `map()` is always a **list**. 
 
@@ -155,17 +142,6 @@ Can you use map and the other typed functions to answer the following question?
 3. Is the character male?
 4. How heavy is each character?
 
-```{r answer3}
-# 1. How many starships has each character been in?
-map(sw_people, ~ length(.x[["starships"]]))
-map_int(sw_people, ~ length(.x[["starships"]]))
-# 2. What color is each character's hair?
-map(sw_people, ~ .x[["hair_color"]])
-map_chr(sw_people, ~ .x[["hair_color"]])
-# 3. Is the character male?
-map(sw_people, ~ .x[["gender"]] == "male")
-map_lgl(sw_people, ~ .x[["gender"]] == "male")
-```
 To find out how heavy is each character, we want the **numeric** value of "mass" of each character from the dataset. 
 
 If we use `map_dbl()`, it will not work, because "mass" is stored as a **string** in the data
@@ -204,32 +180,6 @@ Star Wars Challenges
 1. Which film (sw_films) has the most characters?
 2. Which sw_species has the most possible eye colors?
 3. Which sw_planets do we know the least about (i.e., have the most "unknown" entries)?
-
-```{r answers4}
-# 1. Which film (sw_films) has the most characters?
-map(sw_films, "characters") %>%
-  map_int(length) %>%
-  set_names(map_chr(sw_films, "title")) %>%
-  sort()
-
-# 2. Which sw_species has the most possible eye colors?
-sw_species[[1]]$eye_colors
-map_chr(sw_species, "eye_colors") %>%
-  strsplit(", ") %>%
-  map_int(length)
-
-# 3. Which sw_planets do we know the least about (i.e., have the most "unknown" entries)?
-# For one, entry 61
-map_lgl(sw_planets[[61]], ~ "unknown" %in% .x) %>%
-  sum()
-
-# For all
-map_int(sw_planets, 
-  ~ map_lgl(.x, ~ "unknown" %in% .x) %>% sum()) %>%
-  set_names(map_chr(sw_planets, "name")) %>%
-  sort(decreasing = TRUE)
-
-```
 
 # What if I have more than 1 variable to iterate?
 ## map2()!
