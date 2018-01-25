@@ -128,6 +128,10 @@ Your turn! Can you use `map()` to find the name of each character's home world?
 
 ```{r answer2}
 map(sw_people, ~planet_lookup[.x$homeworld]) %>% head()
+
+# Keep URL as the name of the variable
+# map_chr(sw_people, ~planet_lookup[.x$homeworld]) %>%
+#   set_names(map(sw_people, "homeworld"))
 ```
 
 # Other map functions
@@ -159,6 +163,7 @@ Can you use map and the other typed functions to answer the following question?
 # 1. How many starships has each character been in?
 map(sw_people, ~ length(.x[["starships"]]))
 map_int(sw_people, ~ length(.x[["starships"]]))
+
 # 2. What color is each character's hair?
 map(sw_people, ~ .x[["hair_color"]])
 map_chr(sw_people, ~ .x[["hair_color"]])
@@ -212,6 +217,7 @@ map(sw_films, "characters") %>%
   set_names(map_chr(sw_films, "title")) %>%
   sort()
 
+# sw_films[[which.max(map(sw_films))]]
 # 2. Which sw_species has the most possible eye colors?
 sw_species[[1]]$eye_colors
 map_chr(sw_species, "eye_colors") %>%
